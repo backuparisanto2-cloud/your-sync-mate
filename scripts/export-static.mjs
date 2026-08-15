@@ -58,8 +58,10 @@ DirectoryIndex index.html
   RewriteRule ^ index.html [L]
 </IfModule>
 
-# Cadangan bila mod_rewrite tidak aktif di hosting.
+# Cadangan bila mod_rewrite tidak aktif. Jika paket dipasang di subfolder,
+# ubah menjadi: ErrorDocument 404 /nama-subfolder/index.html
 ErrorDocument 404 /index.html
+
 
 # Sebagian hosting menyajikan modul JS dengan tipe MIME salah sehingga
 # browser menolak menjalankannya dan halaman tampak kosong.

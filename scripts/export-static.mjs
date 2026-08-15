@@ -55,8 +55,13 @@ DirectoryIndex index.html
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
+  # Deep link (mis. /app/smtp) meminta aset relatif ke /app/smtp/assets/...
+  # Kembalikan permintaan itu ke folder assets yang sebenarnya.
+  RewriteRule ^(?:.*/)?assets/(.*)$ assets/$1 [L]
+  RewriteRule ^(?:.*/)?(favicon\\.ico|robots\\.txt|manifest\\.webmanifest)$ $1 [L]
   RewriteRule ^ index.html [L]
 </IfModule>
+
 
 # Cadangan bila mod_rewrite tidak aktif. Jika paket dipasang di subfolder,
 # ubah menjadi: ErrorDocument 404 /nama-subfolder/index.html

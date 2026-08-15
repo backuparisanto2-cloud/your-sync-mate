@@ -1,5 +1,14 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { CalendarClock, History, KeyRound, LogOut, Mail, Package, Server } from "lucide-react";
+import {
+  CalendarClock,
+  History,
+  KeyRound,
+  LogOut,
+  Mail,
+  Package,
+  Server,
+  ServerCog,
+} from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { signOut, useSession } from "@/lib/auth";
@@ -10,8 +19,10 @@ const NAV = [
   { to: "/smtp", label: "SMTP", icon: Server },
   { to: "/logs", label: "Riwayat", icon: History },
   { to: "/export", label: "Export", icon: Package },
+  { to: "/hosting-guide", label: "Hosting", icon: ServerCog },
   { to: "/env-guide", label: "Env", icon: KeyRound },
 ] as const;
+
 
 
 export function AppShell({ children }: { children: ReactNode }) {

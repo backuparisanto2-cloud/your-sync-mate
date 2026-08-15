@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reminder Mail — Penjadwal Email SMTP</title>
+    <meta
+      name="description"
+      content="Aplikasi pengingat email terjadwal dengan server SMTP sendiri, multi periode tanggal, dan lampiran."
+    />
+    <meta property="og:title" content="Reminder Mail — Penjadwal Email SMTP" />
+    <meta
+      property="og:description"
+      content="Pengingat email terjadwal dengan SMTP sendiri, multi periode tanggal, dan lampiran."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap"
+    />
+    <style>
+      #boot-fallback {
+        display: none;
+        max-width: 34rem;
+        margin: 12vh auto;
+        padding: 1.5rem;
+        border: 1px solid #e3e6e3;
+        border-radius: 14px;
+        font-family: Manrope, system-ui, sans-serif;
+        color: #1f2a24;
+        line-height: 1.55;
+      }
+      html[data-boot-failed="true"] #boot-fallback {
+        display: block;
+      }
+      #boot-fallback h1 {
+        font-size: 1.05rem;
+        margin: 0 0 0.5rem;
+      }
+      #boot-fallback ul {
+        padding-left: 1.1rem;
+        margin: 0.5rem 0 0;
+        font-size: 0.9rem;
+      }
+      #boot-fallback code {
+        background: #f2f4f2;
+        padding: 0 0.25rem;
+        border-radius: 4px;
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/index-C4v_FnXm.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/styles-D-LGlgf4.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="boot-fallback">
+      <h1>Aplikasi gagal dimuat</h1>
+      <p>
+        Berkas HTML sudah terbuka, tetapi bundel JavaScript tidak berhasil dijalankan. Penyebab yang
+        paling sering terjadi:
+      </p>
+      <ul>
+        <li>
+          Berkas di folder <code>assets/</code> tidak ikut terunggah, atau diunggah tidak lengkap.
+        </li>
+        <li>
+          Halaman dibuka lewat <code>file://</code>. Paket ini harus diakses melalui web server
+          (http/https).
+        </li>
+        <li>
+          Server menyajikan <code>.js</code> dengan tipe MIME salah, atau
+          <code>mod_rewrite</code>/<code>AllowOverride All</code> nonaktif sehingga
+          <code>.htaccess</code> diabaikan.
+        </li>
+        <li>Cache lama di browser atau CDN — coba muat ulang dengan Ctrl/Cmd + Shift + R.</li>
+      </ul>
+      <p style="font-size: 0.9rem">
+        Buka Console pada Developer Tools browser untuk melihat berkas mana yang 404. Panduan
+        lengkap ada di <code>README-DEPLOY.md</code> di dalam paket ini.
+      </p>
+    </div>
+    <script>
+      setTimeout(function () {
+        if (document.documentElement.getAttribute("data-app-loaded") !== "true") {
+          document.documentElement.setAttribute("data-boot-failed", "true");
+        }
+      }, 4000);
+    </script>
+  </body>
+</html>

@@ -134,6 +134,15 @@ const indexHtml = existsSync(join(siteDir, "index.html"))
   ? readFileSync(join(siteDir, "index.html"), "utf8")
   : "";
 
+/** Semua rujukan aset lokal di index.html (script src / link href). */
+const refs = [...indexHtml.matchAll(/(?:src|href)="([^"]+)"/g)]
+  .map((m) => m[1])
+  .filter((ref) => !/^(https?:)?\/\//.test(ref) && !ref.startsWith("data:"));
+const missingRefs = refs.filter(
+  (ref) => !files.includes(ref.replace(/^\.?\//, "").split("?")[0]),
+);
+
+
 const supabaseUrl = process.env.VITE_SUPABASE_URL ?? "";
 const publishableKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";

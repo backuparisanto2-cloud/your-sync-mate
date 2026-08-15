@@ -91,11 +91,23 @@ ErrorDocument 404 /index.html
 );
 
 // Netlify / Cloudflare Pages
-writeFileSync(join(siteDir, "_redirects"), "/*    /index.html   200\n");
+writeFileSync(
+  join(siteDir, "_redirects"),
+  "/*/assets/*    /assets/:splat   200\n/*    /index.html   200\n",
+);
 // Vercel static
 writeFileSync(
   join(siteDir, "vercel.json"),
-  JSON.stringify({ rewrites: [{ source: "/(.*)", destination: "/index.html" }] }, null, 2) + "\n",
+  JSON.stringify(
+    {
+      rewrites: [
+        { source: "/(?:.*/)?assets/(.*)", destination: "/assets/$1" },
+        { source: "/(.*)", destination: "/index.html" },
+      ],
+    },
+    null,
+    2,
+  ) + "\n",
 );
 // Nginx contoh
 writeFileSync(
@@ -106,12 +118,19 @@ writeFileSync(
   root /var/www/remindly;
   index index.html;
 
+  # Deep link meminta aset relatif (mis. /smtp/assets/app.js) — arahkan
+  # kembali ke folder assets yang sebenarnya.
+  location ~ ^/.+/assets/(.*)$ {
+    try_files /assets/$1 =404;
+  }
+
   location / {
     try_files $uri $uri/ /index.html;
   }
 }
 `,
 );
+
 // Fallback 404 untuk hosting yang hanya mendukung 404.html
 cpSync(join(siteDir, "index.html"), join(siteDir, "404.html"));
 

@@ -14,7 +14,233 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      reminder_attachments: {
+        Row: {
+          created_at: string
+          filename: string
+          id: string
+          mime_type: string
+          path: string
+          reminder_id: string
+          size_bytes: number
+        }
+        Insert: {
+          created_at?: string
+          filename: string
+          id?: string
+          mime_type?: string
+          path: string
+          reminder_id: string
+          size_bytes?: number
+        }
+        Update: {
+          created_at?: string
+          filename?: string
+          id?: string
+          mime_type?: string
+          path?: string
+          reminder_id?: string
+          size_bytes?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminder_attachments_reminder_id_fkey"
+            columns: ["reminder_id"]
+            isOneToOne: false
+            referencedRelation: "reminders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reminder_schedules: {
+        Row: {
+          created_at: string
+          end_date: string | null
+          id: string
+          kind: string
+          reminder_id: string
+          send_time: string
+          start_date: string | null
+          weekdays: number[]
+        }
+        Insert: {
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          kind?: string
+          reminder_id: string
+          send_time?: string
+          start_date?: string | null
+          weekdays?: number[]
+        }
+        Update: {
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          kind?: string
+          reminder_id?: string
+          send_time?: string
+          start_date?: string | null
+          weekdays?: number[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminder_schedules_reminder_id_fkey"
+            columns: ["reminder_id"]
+            isOneToOne: false
+            referencedRelation: "reminders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reminders: {
+        Row: {
+          bcc_emails: string[]
+          body: string
+          cc_emails: string[]
+          created_at: string
+          enabled: boolean
+          id: string
+          smtp_profile_id: string | null
+          subject: string
+          timezone: string
+          title: string
+          to_emails: string[]
+          updated_at: string
+        }
+        Insert: {
+          bcc_emails?: string[]
+          body?: string
+          cc_emails?: string[]
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          smtp_profile_id?: string | null
+          subject: string
+          timezone?: string
+          title: string
+          to_emails?: string[]
+          updated_at?: string
+        }
+        Update: {
+          bcc_emails?: string[]
+          body?: string
+          cc_emails?: string[]
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          smtp_profile_id?: string | null
+          subject?: string
+          timezone?: string
+          title?: string
+          to_emails?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminders_smtp_profile_id_fkey"
+            columns: ["smtp_profile_id"]
+            isOneToOne: false
+            referencedRelation: "smtp_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      send_logs: {
+        Row: {
+          error: string | null
+          id: string
+          occurrence_at: string | null
+          recipients: string | null
+          reminder_id: string | null
+          reminder_title: string | null
+          sent_at: string
+          status: string
+          trigger_source: string
+        }
+        Insert: {
+          error?: string | null
+          id?: string
+          occurrence_at?: string | null
+          recipients?: string | null
+          reminder_id?: string | null
+          reminder_title?: string | null
+          sent_at?: string
+          status?: string
+          trigger_source?: string
+        }
+        Update: {
+          error?: string | null
+          id?: string
+          occurrence_at?: string | null
+          recipients?: string | null
+          reminder_id?: string | null
+          reminder_title?: string | null
+          sent_at?: string
+          status?: string
+          trigger_source?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "send_logs_reminder_id_fkey"
+            columns: ["reminder_id"]
+            isOneToOne: false
+            referencedRelation: "reminders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      smtp_profiles: {
+        Row: {
+          created_at: string
+          from_email: string
+          from_name: string | null
+          host: string
+          id: string
+          last_status: string | null
+          last_tested_at: string | null
+          name: string
+          password: string
+          port: number
+          tls: boolean
+          updated_at: string
+          username: string
+          verify_cert: boolean
+        }
+        Insert: {
+          created_at?: string
+          from_email: string
+          from_name?: string | null
+          host: string
+          id?: string
+          last_status?: string | null
+          last_tested_at?: string | null
+          name: string
+          password?: string
+          port?: number
+          tls?: boolean
+          updated_at?: string
+          username: string
+          verify_cert?: boolean
+        }
+        Update: {
+          created_at?: string
+          from_email?: string
+          from_name?: string | null
+          host?: string
+          id?: string
+          last_status?: string | null
+          last_tested_at?: string | null
+          name?: string
+          password?: string
+          port?: number
+          tls?: boolean
+          updated_at?: string
+          username?: string
+          verify_cert?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

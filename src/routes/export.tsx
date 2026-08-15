@@ -207,15 +207,23 @@ function ExportPage() {
       <Card className="mt-4 border-border/70 shadow-[var(--shadow-soft)]">
         <CardContent className="flex flex-wrap items-center justify-between gap-3 p-5">
           <p className="text-sm text-muted-foreground">
-            Butuh nilai variabel lingkungan untuk membangun ulang bundel di komputer sendiri?
+            Butuh nilai variabel lingkungan atau setelan server hosting?
           </p>
-          <Button asChild variant="outline" className="rounded-full">
-            <Link to="/env-guide">
-              <KeyRound className="h-4 w-4" /> Panduan variabel lingkungan
-            </Link>
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="outline" className="rounded-full">
+              <Link to="/hosting-guide">
+                <ServerCog className="h-4 w-4" /> Panduan hosting
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="rounded-full">
+              <Link to="/env-guide">
+                <KeyRound className="h-4 w-4" /> Panduan variabel lingkungan
+              </Link>
+            </Button>
+          </div>
         </CardContent>
       </Card>
+
 
 
       <div className="mt-8 space-y-4">

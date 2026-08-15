@@ -43,13 +43,33 @@ console.log("→ Menambahkan konfigurasi hosting…");
 // Apache / cPanel
 writeFileSync(
   join(siteDir, ".htaccess"),
-  `# SPA routing: semua URL dilayani index.html
+  `# SPA routing: semua URL dilayani index.html.
+# Berlaku baik di root domain maupun di subfolder (mis. public_html/app),
+# karena substitusi relatif "index.html" diselesaikan terhadap folder ini.
 Options -MultiViews
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
-RewriteRule ^ index.html [L]
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # File atau folder yang benar-benar ada dilayani apa adanya.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Cadangan bila mod_rewrite tidak aktif di hosting.
+ErrorDocument 404 /index.html
+
+# Sebagian hosting menyajikan modul JS dengan tipe MIME salah sehingga
+# browser menolak menjalankannya dan halaman tampak kosong.
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+  AddType application/javascript .mjs
+  AddType text/css .css
+  AddType image/svg+xml .svg
+  AddType font/woff2 .woff2
+</IfModule>
 
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
@@ -62,6 +82,7 @@ RewriteRule ^ index.html [L]
 </IfModule>
 `,
 );
+
 // Netlify / Cloudflare Pages
 writeFileSync(join(siteDir, "_redirects"), "/*    /index.html   200\n");
 // Vercel static

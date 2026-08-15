@@ -77,6 +77,8 @@ function SmtpPage() {
   const [testing, setTesting] = useState<string | null>(null);
   const [sending, setSending] = useState<string | null>(null);
   const [testEmail, setTestEmail] = useState<Record<string, string>>({});
+  const [results, setResults] = useState<Record<string, { ok: boolean; message: string }>>({});
+
 
   const profiles = useQuery({ queryKey: ["smtp"], queryFn: () => list() });
   const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setDraft((d) => ({ ...d, [k]: v }));
@@ -238,6 +240,32 @@ function SmtpPage() {
                       {p.last_status ? `${p.last_status} · ${formatDateTime(p.last_tested_at)}` : "belum diuji"}
                     </span>
                   </p>
+                  {testing === p.id ? (
+                    <p className="mt-2 flex items-center gap-2 rounded-md bg-muted px-3 py-2 text-xs text-muted-foreground">
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      Menguji koneksi & kredensial ke {p.host}:{p.port}…
+                    </p>
+                  ) : results[p.id] ? (
+                    <div
+                      className={`mt-2 flex items-start gap-2 rounded-md px-3 py-2 text-xs ${
+                        results[p.id]!.ok
+                          ? "bg-primary/10 text-primary"
+                          : "bg-destructive/10 text-destructive"
+                      }`}
+                    >
+                      {results[p.id]!.ok ? (
+                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                      ) : (
+                        <XCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                      )}
+                      <span className="min-w-0 break-words">
+                        <strong className="font-medium">
+                          {results[p.id]!.ok ? "Kredensial valid" : "Uji gagal"}
+                        </strong>{" "}
+                        · {results[p.id]!.message}
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
                 <div className="flex shrink-0 flex-wrap gap-2">
                   <Button
@@ -247,19 +275,28 @@ function SmtpPage() {
                     disabled={testing === p.id}
                     onClick={async () => {
                       setTesting(p.id);
+                      setResults((m) => {
+                        const next = { ...m };
+                        delete next[p.id];
+                        return next;
+                      });
                       try {
                         const res = await test({ data: { id: p.id } });
-                        if (res.status.startsWith("Succeeded"))
-                          toast.success("Koneksi & kredensial SMTP valid");
+                        const ok = res.status.startsWith("Succeeded");
+                        setResults((m) => ({ ...m, [p.id]: { ok, message: res.status } }));
+                        if (ok) toast.success("Koneksi & kredensial SMTP valid");
                         else toast.error(`Uji gagal: ${res.status}`);
                       } catch (e) {
-                        toast.error((e as Error).message);
+                        const message = (e as Error).message;
+                        setResults((m) => ({ ...m, [p.id]: { ok: false, message } }));
+                        toast.error(message);
                       } finally {
                         setTesting(null);
                         qc.invalidateQueries({ queryKey: ["smtp"] });
                       }
                     }}
                   >
+
                     {testing === p.id ? <Loader2 className="h-4 w-4 animate-spin" /> : null} Uji koneksi
                   </Button>
                   <Button

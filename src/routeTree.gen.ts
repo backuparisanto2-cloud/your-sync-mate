@@ -10,33 +10,180 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as EnvGuideRouteImport } from './routes/env-guide'
+import { Route as ExportRouteImport } from './routes/export'
+import { Route as LogsRouteImport } from './routes/logs'
+import { Route as SmtpRouteImport } from './routes/smtp'
+import { Route as RemindersIdRouteImport } from './routes/reminders/$id'
+import { Route as RemindersNewRouteImport } from './routes/reminders/new'
+import { Route as ApiPublicCronDispatchRouteImport } from './routes/api/public/cron/dispatch'
+import { Route as ApiPublicMailSendRouteImport } from './routes/api/public/mail/send'
+import { Route as ApiPublicMailTestRouteImport } from './routes/api/public/mail/test'
+import { Route as ApiPublicMailTestSendRouteImport } from './routes/api/public/mail/test-send'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnvGuideRoute = EnvGuideRouteImport.update({
+  id: '/env-guide',
+  path: '/env-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExportRoute = ExportRouteImport.update({
+  id: '/export',
+  path: '/export',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LogsRoute = LogsRouteImport.update({
+  id: '/logs',
+  path: '/logs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SmtpRoute = SmtpRouteImport.update({
+  id: '/smtp',
+  path: '/smtp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RemindersIdRoute = RemindersIdRouteImport.update({
+  id: '/reminders/$id',
+  path: '/reminders/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RemindersNewRoute = RemindersNewRouteImport.update({
+  id: '/reminders/new',
+  path: '/reminders/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicCronDispatchRoute = ApiPublicCronDispatchRouteImport.update({
+  id: '/api/public/cron/dispatch',
+  path: '/api/public/cron/dispatch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicMailSendRoute = ApiPublicMailSendRouteImport.update({
+  id: '/api/public/mail/send',
+  path: '/api/public/mail/send',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicMailTestRoute = ApiPublicMailTestRouteImport.update({
+  id: '/api/public/mail/test',
+  path: '/api/public/mail/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicMailTestSendRoute = ApiPublicMailTestSendRouteImport.update({
+  id: '/api/public/mail/test-send',
+  path: '/api/public/mail/test-send',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/env-guide': typeof EnvGuideRoute
+  '/export': typeof ExportRoute
+  '/logs': typeof LogsRoute
+  '/smtp': typeof SmtpRoute
+  '/reminders/$id': typeof RemindersIdRoute
+  '/reminders/new': typeof RemindersNewRoute
+  '/api/public/cron/dispatch': typeof ApiPublicCronDispatchRoute
+  '/api/public/mail/send': typeof ApiPublicMailSendRoute
+  '/api/public/mail/test': typeof ApiPublicMailTestRoute
+  '/api/public/mail/test-send': typeof ApiPublicMailTestSendRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/env-guide': typeof EnvGuideRoute
+  '/export': typeof ExportRoute
+  '/logs': typeof LogsRoute
+  '/smtp': typeof SmtpRoute
+  '/reminders/$id': typeof RemindersIdRoute
+  '/reminders/new': typeof RemindersNewRoute
+  '/api/public/cron/dispatch': typeof ApiPublicCronDispatchRoute
+  '/api/public/mail/send': typeof ApiPublicMailSendRoute
+  '/api/public/mail/test': typeof ApiPublicMailTestRoute
+  '/api/public/mail/test-send': typeof ApiPublicMailTestSendRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/env-guide': typeof EnvGuideRoute
+  '/export': typeof ExportRoute
+  '/logs': typeof LogsRoute
+  '/smtp': typeof SmtpRoute
+  '/reminders/$id': typeof RemindersIdRoute
+  '/reminders/new': typeof RemindersNewRoute
+  '/api/public/cron/dispatch': typeof ApiPublicCronDispatchRoute
+  '/api/public/mail/send': typeof ApiPublicMailSendRoute
+  '/api/public/mail/test': typeof ApiPublicMailTestRoute
+  '/api/public/mail/test-send': typeof ApiPublicMailTestSendRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/env-guide'
+    | '/export'
+    | '/logs'
+    | '/smtp'
+    | '/reminders/$id'
+    | '/reminders/new'
+    | '/api/public/cron/dispatch'
+    | '/api/public/mail/send'
+    | '/api/public/mail/test'
+    | '/api/public/mail/test-send'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/env-guide'
+    | '/export'
+    | '/logs'
+    | '/smtp'
+    | '/reminders/$id'
+    | '/reminders/new'
+    | '/api/public/cron/dispatch'
+    | '/api/public/mail/send'
+    | '/api/public/mail/test'
+    | '/api/public/mail/test-send'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/env-guide'
+    | '/export'
+    | '/logs'
+    | '/smtp'
+    | '/reminders/$id'
+    | '/reminders/new'
+    | '/api/public/cron/dispatch'
+    | '/api/public/mail/send'
+    | '/api/public/mail/test'
+    | '/api/public/mail/test-send'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  EnvGuideRoute: typeof EnvGuideRoute
+  ExportRoute: typeof ExportRoute
+  LogsRoute: typeof LogsRoute
+  SmtpRoute: typeof SmtpRoute
+  RemindersIdRoute: typeof RemindersIdRoute
+  RemindersNewRoute: typeof RemindersNewRoute
+  ApiPublicCronDispatchRoute: typeof ApiPublicCronDispatchRoute
+  ApiPublicMailSendRoute: typeof ApiPublicMailSendRoute
+  ApiPublicMailTestRoute: typeof ApiPublicMailTestRoute
+  ApiPublicMailTestSendRoute: typeof ApiPublicMailTestSendRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +195,99 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/env-guide': {
+      id: '/env-guide'
+      path: '/env-guide'
+      fullPath: '/env-guide'
+      preLoaderRoute: typeof EnvGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/export': {
+      id: '/export'
+      path: '/export'
+      fullPath: '/export'
+      preLoaderRoute: typeof ExportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/logs': {
+      id: '/logs'
+      path: '/logs'
+      fullPath: '/logs'
+      preLoaderRoute: typeof LogsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/smtp': {
+      id: '/smtp'
+      path: '/smtp'
+      fullPath: '/smtp'
+      preLoaderRoute: typeof SmtpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reminders/$id': {
+      id: '/reminders/$id'
+      path: '/reminders/$id'
+      fullPath: '/reminders/$id'
+      preLoaderRoute: typeof RemindersIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reminders/new': {
+      id: '/reminders/new'
+      path: '/reminders/new'
+      fullPath: '/reminders/new'
+      preLoaderRoute: typeof RemindersNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/cron/dispatch': {
+      id: '/api/public/cron/dispatch'
+      path: '/api/public/cron/dispatch'
+      fullPath: '/api/public/cron/dispatch'
+      preLoaderRoute: typeof ApiPublicCronDispatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/mail/send': {
+      id: '/api/public/mail/send'
+      path: '/api/public/mail/send'
+      fullPath: '/api/public/mail/send'
+      preLoaderRoute: typeof ApiPublicMailSendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/mail/test': {
+      id: '/api/public/mail/test'
+      path: '/api/public/mail/test'
+      fullPath: '/api/public/mail/test'
+      preLoaderRoute: typeof ApiPublicMailTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/mail/test-send': {
+      id: '/api/public/mail/test-send'
+      path: '/api/public/mail/test-send'
+      fullPath: '/api/public/mail/test-send'
+      preLoaderRoute: typeof ApiPublicMailTestSendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  EnvGuideRoute: EnvGuideRoute,
+  ExportRoute: ExportRoute,
+  LogsRoute: LogsRoute,
+  SmtpRoute: SmtpRoute,
+  RemindersIdRoute: RemindersIdRoute,
+  RemindersNewRoute: RemindersNewRoute,
+  ApiPublicCronDispatchRoute: ApiPublicCronDispatchRoute,
+  ApiPublicMailSendRoute: ApiPublicMailSendRoute,
+  ApiPublicMailTestRoute: ApiPublicMailTestRoute,
+  ApiPublicMailTestSendRoute: ApiPublicMailTestSendRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

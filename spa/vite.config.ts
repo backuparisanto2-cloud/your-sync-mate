@@ -53,8 +53,12 @@ const stubServerModules = {
 /** Plain SPA build used by `npm run export:static` — no SSR, no worker. */
 export default defineConfig({
   root: fileURLToPath(new URL(".", import.meta.url)),
+  // Relative asset URLs so the package works at the domain root, inside a
+  // subfolder (public_html/app), or on a subdomain without rebuilding.
+  base: "./",
   publicDir: false,
   envDir: projectRoot,
+
   plugins: [stubServerModules, tailwindcss(), react()],
 
   resolve: {

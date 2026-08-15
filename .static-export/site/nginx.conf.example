@@ -1,0 +1,16 @@
+server {
+  listen 80;
+  server_name contoh-domain.com;
+  root /var/www/remindly;
+  index index.html;
+
+  # Deep link meminta aset relatif (mis. /smtp/assets/app.js) — arahkan
+  # kembali ke folder assets yang sebenarnya.
+  location ~ ^/.+/assets/(.*)$ {
+    try_files /assets/$1 =404;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}

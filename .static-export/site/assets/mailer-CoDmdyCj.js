@@ -1,0 +1,1 @@
+var e=()=>{throw Error(`Modul server tidak tersedia pada build statis`)},t=()=>{throw Error(`Modul server tidak tersedia pada build statis`)},n=()=>{throw Error(`Modul server tidak tersedia pada build statis`)},r=()=>{throw Error(`Modul server tidak tersedia pada build statis`)};export{r as dispatchDue,e as runSmtpTest,n as sendReminder,t as sendSmtpTestEmail};

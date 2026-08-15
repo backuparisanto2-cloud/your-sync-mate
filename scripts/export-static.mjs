@@ -43,13 +43,40 @@ console.log("→ Menambahkan konfigurasi hosting…");
 // Apache / cPanel
 writeFileSync(
   join(siteDir, ".htaccess"),
-  `# SPA routing: semua URL dilayani index.html
+  `# SPA routing: semua URL dilayani index.html.
+# Berlaku baik di root domain maupun di subfolder (mis. public_html/app),
+# karena substitusi relatif "index.html" diselesaikan terhadap folder ini.
 Options -MultiViews
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
-RewriteRule ^ index.html [L]
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # File atau folder yang benar-benar ada dilayani apa adanya.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  # Deep link (mis. /app/smtp) meminta aset relatif ke /app/smtp/assets/...
+  # Kembalikan permintaan itu ke folder assets yang sebenarnya.
+  RewriteRule ^(?:.*/)?assets/(.*)$ assets/$1 [L]
+  RewriteRule ^(?:.*/)?(favicon\\.ico|robots\\.txt|manifest\\.webmanifest)$ $1 [L]
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+
+# Cadangan bila mod_rewrite tidak aktif. Jika paket dipasang di subfolder,
+# ubah menjadi: ErrorDocument 404 /nama-subfolder/index.html
+ErrorDocument 404 /index.html
+
+
+# Sebagian hosting menyajikan modul JS dengan tipe MIME salah sehingga
+# browser menolak menjalankannya dan halaman tampak kosong.
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+  AddType application/javascript .mjs
+  AddType text/css .css
+  AddType image/svg+xml .svg
+  AddType font/woff2 .woff2
+</IfModule>
 
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
@@ -62,12 +89,25 @@ RewriteRule ^ index.html [L]
 </IfModule>
 `,
 );
+
 // Netlify / Cloudflare Pages
-writeFileSync(join(siteDir, "_redirects"), "/*    /index.html   200\n");
+writeFileSync(
+  join(siteDir, "_redirects"),
+  "/*/assets/*    /assets/:splat   200\n/*    /index.html   200\n",
+);
 // Vercel static
 writeFileSync(
   join(siteDir, "vercel.json"),
-  JSON.stringify({ rewrites: [{ source: "/(.*)", destination: "/index.html" }] }, null, 2) + "\n",
+  JSON.stringify(
+    {
+      rewrites: [
+        { source: "/(?:.*/)?assets/(.*)", destination: "/assets/$1" },
+        { source: "/(.*)", destination: "/index.html" },
+      ],
+    },
+    null,
+    2,
+  ) + "\n",
 );
 // Nginx contoh
 writeFileSync(
@@ -78,12 +118,19 @@ writeFileSync(
   root /var/www/remindly;
   index index.html;
 
+  # Deep link meminta aset relatif (mis. /smtp/assets/app.js) — arahkan
+  # kembali ke folder assets yang sebenarnya.
+  location ~ ^/.+/assets/(.*)$ {
+    try_files /assets/$1 =404;
+  }
+
   location / {
     try_files $uri $uri/ /index.html;
   }
 }
 `,
 );
+
 // Fallback 404 untuk hosting yang hanya mendukung 404.html
 cpSync(join(siteDir, "index.html"), join(siteDir, "404.html"));
 
@@ -111,6 +158,15 @@ const indexHtml = existsSync(join(siteDir, "index.html"))
   ? readFileSync(join(siteDir, "index.html"), "utf8")
   : "";
 
+/** Semua rujukan aset lokal di index.html (script src / link href). */
+const refs = [...indexHtml.matchAll(/(?:src|href)="([^"]+)"/g)]
+  .map((m) => m[1])
+  .filter((ref) => !/^(https?:)?\/\//.test(ref) && !ref.startsWith("data:"));
+const missingRefs = refs.filter(
+  (ref) => !files.includes(ref.replace(/^\.?\//, "").split("?")[0]),
+);
+
+
 const supabaseUrl = process.env.VITE_SUPABASE_URL ?? "";
 const publishableKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
@@ -134,6 +190,30 @@ const checks = [
     ok: /<script[^>]+type="module"[^>]+src="/.test(indexHtml),
     detail: "Tag <script type=\"module\"> menunjuk ke aset hasil build.",
   },
+  {
+    id: "relative-assets",
+    label: "Aset memakai jalur relatif",
+    ok:
+      refs.length > 0 &&
+      refs.every((ref) => !ref.startsWith("/")) &&
+      !/(?:src|href)="\/assets\//.test(indexHtml),
+    detail: "Wajib agar paket tetap jalan bila diunggah ke subfolder hosting.",
+  },
+  {
+    id: "assets-exist",
+    label: "Semua aset yang dirujuk index.html tersedia",
+    ok: missingRefs.length === 0,
+    detail: missingRefs.length
+      ? `Tidak ditemukan: ${missingRefs.join(", ")}`
+      : `${refs.length} rujukan aset lokal terverifikasi.`,
+  },
+  {
+    id: "boot-fallback",
+    label: "Pesan diagnosa layar kosong tersedia",
+    ok: indexHtml.includes('id="boot-fallback"') && indexHtml.includes("data-app-loaded"),
+    detail: "Menampilkan penyebab bila bundel gagal dimuat di hosting.",
+  },
+
   {
     id: "backend-url",
     label: "URL backend ter-inject ke bundel",

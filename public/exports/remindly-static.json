@@ -1,7 +1,7 @@
 {
   "file": "remindly-static.zip",
-  "bytes": 261803,
-  "builtAt": "2026-08-15T12:50:48.497Z",
+  "bytes": 265627,
+  "builtAt": "2026-08-15T13:57:26.886Z",
   "fileCount": 12,
   "valid": true,
   "checks": [
@@ -24,10 +24,28 @@
       "detail": "Tag <script type=\"module\"> menunjuk ke aset hasil build."
     },
     {
+      "id": "relative-assets",
+      "label": "Aset memakai jalur relatif",
+      "ok": true,
+      "detail": "Wajib agar paket tetap jalan bila diunggah ke subfolder hosting."
+    },
+    {
+      "id": "assets-exist",
+      "label": "Semua aset yang dirujuk index.html tersedia",
+      "ok": true,
+      "detail": "3 rujukan aset lokal terverifikasi."
+    },
+    {
+      "id": "boot-fallback",
+      "label": "Pesan diagnosa layar kosong tersedia",
+      "ok": true,
+      "detail": "Menampilkan penyebab bila bundel gagal dimuat di hosting."
+    },
+    {
       "id": "backend-url",
       "label": "URL backend ter-inject ke bundel",
       "ok": true,
-      "detail": "https://hdqgnlyebdknemlnitlg.supabase.co"
+      "detail": "https://hqsxtltyqesyoomxmnjl.supabase.co"
     },
     {
       "id": "publishable-key",

@@ -1,0 +1,44 @@
+# SPA routing: semua URL dilayani index.html.
+# Berlaku baik di root domain maupun di subfolder (mis. public_html/app),
+# karena substitusi relatif "index.html" diselesaikan terhadap folder ini.
+Options -MultiViews
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # File atau folder yang benar-benar ada dilayani apa adanya.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  # Deep link (mis. /app/smtp) meminta aset relatif ke /app/smtp/assets/...
+  # Kembalikan permintaan itu ke folder assets yang sebenarnya.
+  RewriteRule ^(?:.*/)?assets/(.*)$ assets/$1 [L]
+  RewriteRule ^(?:.*/)?(favicon\.ico|robots\.txt|manifest\.webmanifest)$ $1 [L]
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+
+# Cadangan bila mod_rewrite tidak aktif. Jika paket dipasang di subfolder,
+# ubah menjadi: ErrorDocument 404 /nama-subfolder/index.html
+ErrorDocument 404 /index.html
+
+
+# Sebagian hosting menyajikan modul JS dengan tipe MIME salah sehingga
+# browser menolak menjalankannya dan halaman tampak kosong.
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+  AddType application/javascript .mjs
+  AddType text/css .css
+  AddType image/svg+xml .svg
+  AddType font/woff2 .woff2
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>

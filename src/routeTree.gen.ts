@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as EnvGuideRouteImport } from './routes/env-guide'
 import { Route as ExportRouteImport } from './routes/export'
+import { Route as HostingGuideRouteImport } from './routes/hosting-guide'
 import { Route as LogsRouteImport } from './routes/logs'
 import { Route as SmtpRouteImport } from './routes/smtp'
 import { Route as RemindersIdRouteImport } from './routes/reminders/$id'
@@ -40,6 +41,11 @@ const EnvGuideRoute = EnvGuideRouteImport.update({
 const ExportRoute = ExportRouteImport.update({
   id: '/export',
   path: '/export',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostingGuideRoute = HostingGuideRouteImport.update({
+  id: '/hosting-guide',
+  path: '/hosting-guide',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LogsRoute = LogsRouteImport.update({
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/env-guide': typeof EnvGuideRoute
   '/export': typeof ExportRoute
+  '/hosting-guide': typeof HostingGuideRoute
   '/logs': typeof LogsRoute
   '/smtp': typeof SmtpRoute
   '/reminders/$id': typeof RemindersIdRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/env-guide': typeof EnvGuideRoute
   '/export': typeof ExportRoute
+  '/hosting-guide': typeof HostingGuideRoute
   '/logs': typeof LogsRoute
   '/smtp': typeof SmtpRoute
   '/reminders/$id': typeof RemindersIdRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/env-guide': typeof EnvGuideRoute
   '/export': typeof ExportRoute
+  '/hosting-guide': typeof HostingGuideRoute
   '/logs': typeof LogsRoute
   '/smtp': typeof SmtpRoute
   '/reminders/$id': typeof RemindersIdRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/env-guide'
     | '/export'
+    | '/hosting-guide'
     | '/logs'
     | '/smtp'
     | '/reminders/$id'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/env-guide'
     | '/export'
+    | '/hosting-guide'
     | '/logs'
     | '/smtp'
     | '/reminders/$id'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/env-guide'
     | '/export'
+    | '/hosting-guide'
     | '/logs'
     | '/smtp'
     | '/reminders/$id'
@@ -176,6 +188,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   EnvGuideRoute: typeof EnvGuideRoute
   ExportRoute: typeof ExportRoute
+  HostingGuideRoute: typeof HostingGuideRoute
   LogsRoute: typeof LogsRoute
   SmtpRoute: typeof SmtpRoute
   RemindersIdRoute: typeof RemindersIdRoute
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/export'
       fullPath: '/export'
       preLoaderRoute: typeof ExportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hosting-guide': {
+      id: '/hosting-guide'
+      path: '/hosting-guide'
+      fullPath: '/hosting-guide'
+      preLoaderRoute: typeof HostingGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/logs': {
@@ -280,6 +300,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   EnvGuideRoute: EnvGuideRoute,
   ExportRoute: ExportRoute,
+  HostingGuideRoute: HostingGuideRoute,
   LogsRoute: LogsRoute,
   SmtpRoute: SmtpRoute,
   RemindersIdRoute: RemindersIdRoute,

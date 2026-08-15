@@ -77,6 +77,8 @@ function SmtpPage() {
   const [testing, setTesting] = useState<string | null>(null);
   const [sending, setSending] = useState<string | null>(null);
   const [testEmail, setTestEmail] = useState<Record<string, string>>({});
+  const [results, setResults] = useState<Record<string, { ok: boolean; message: string }>>({});
+
 
   const profiles = useQuery({ queryKey: ["smtp"], queryFn: () => list() });
   const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setDraft((d) => ({ ...d, [k]: v }));

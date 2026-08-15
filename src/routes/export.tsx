@@ -222,10 +222,18 @@ function ExportPage() {
         <Section icon={Globe} title="1. Unggah ke hosting">
           <p>
             Ekstrak ZIP-nya, lalu unggah <strong>seluruh isi folder</strong> (bukan foldernya) ke
-            root domain — misalnya <code>public_html/</code> di cPanel. Pastikan{" "}
-            <code>index.html</code> berada tepat di root.
+            hosting — misalnya <code>public_html/</code> di cPanel. Folder <code>assets/</code>{" "}
+            wajib ikut terunggah lengkap di samping <code>index.html</code>.
+          </p>
+          <p>
+            Aset memakai jalur relatif, jadi paket ini bisa dipasang di root domain, di subfolder
+            (<code>public_html/app/</code> → <code>domain.com/app</code>), maupun di subdomain tanpa
+            perlu build ulang. Jika halaman tampil kosong, paket akan menampilkan pesan diagnosa
+            penyebabnya — biasanya folder <code>assets/</code> belum terunggah atau{" "}
+            <code>mod_rewrite</code>/<code>AllowOverride</code> belum aktif.
           </p>
           <p>Aktifkan HTTPS (Let&rsquo;s Encrypt) karena login dan akses data memerlukannya.</p>
+
         </Section>
 
         <Section icon={ServerCog} title="2. Arahkan semua URL ke index.html">

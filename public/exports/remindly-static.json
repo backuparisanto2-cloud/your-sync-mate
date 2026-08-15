@@ -1,0 +1,69 @@
+{
+  "file": "remindly-static.zip",
+  "bytes": 261803,
+  "builtAt": "2026-08-15T12:50:48.497Z",
+  "fileCount": 12,
+  "valid": true,
+  "checks": [
+    {
+      "id": "entry",
+      "label": "index.html dan 404.html tersedia",
+      "ok": true,
+      "detail": "Halaman utama serta fallback 404 untuk hosting statis."
+    },
+    {
+      "id": "assets",
+      "label": "Bundel JavaScript dan CSS ikut terbangun",
+      "ok": true,
+      "detail": "2 berkas JS · 1 berkas CSS"
+    },
+    {
+      "id": "entry-script",
+      "label": "index.html memuat skrip bundel",
+      "ok": true,
+      "detail": "Tag <script type=\"module\"> menunjuk ke aset hasil build."
+    },
+    {
+      "id": "backend-url",
+      "label": "URL backend ter-inject ke bundel",
+      "ok": true,
+      "detail": "https://hdqgnlyebdknemlnitlg.supabase.co"
+    },
+    {
+      "id": "publishable-key",
+      "label": "Kunci publik (publishable key) ter-inject",
+      "ok": true,
+      "detail": "Diperlukan agar bundel statis bisa terhubung ke database."
+    },
+    {
+      "id": "no-secret",
+      "label": "Tidak ada kredensial rahasia di bundel",
+      "ok": true,
+      "detail": "Service role key dan password SMTP hanya ada di backend."
+    },
+    {
+      "id": "no-node",
+      "label": "Tidak ada modul Node.js yang bocor",
+      "ok": true,
+      "detail": "Modul SMTP/server sudah digantikan stub saat build statis."
+    },
+    {
+      "id": "hosting-config",
+      "label": "Konfigurasi routing hosting lengkap",
+      "ok": true,
+      "detail": "Apache, Netlify/Cloudflare, Vercel, dan contoh Nginx."
+    },
+    {
+      "id": "guide",
+      "label": "Panduan deploy disertakan",
+      "ok": true,
+      "detail": "README-DEPLOY.md ada di dalam paket."
+    },
+    {
+      "id": "archive",
+      "label": "Arsip ZIP terbentuk dan tidak kosong",
+      "ok": true,
+      "detail": "0.25 MB"
+    }
+  ]
+}

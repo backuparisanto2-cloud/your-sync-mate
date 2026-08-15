@@ -158,6 +158,30 @@ const checks = [
     detail: "Tag <script type=\"module\"> menunjuk ke aset hasil build.",
   },
   {
+    id: "relative-assets",
+    label: "Aset memakai jalur relatif",
+    ok:
+      refs.length > 0 &&
+      refs.every((ref) => !ref.startsWith("/")) &&
+      !/(?:src|href)="\/assets\//.test(indexHtml),
+    detail: "Wajib agar paket tetap jalan bila diunggah ke subfolder hosting.",
+  },
+  {
+    id: "assets-exist",
+    label: "Semua aset yang dirujuk index.html tersedia",
+    ok: missingRefs.length === 0,
+    detail: missingRefs.length
+      ? `Tidak ditemukan: ${missingRefs.join(", ")}`
+      : `${refs.length} rujukan aset lokal terverifikasi.`,
+  },
+  {
+    id: "boot-fallback",
+    label: "Pesan diagnosa layar kosong tersedia",
+    ok: indexHtml.includes('id="boot-fallback"') && indexHtml.includes("data-app-loaded"),
+    detail: "Menampilkan penyebab bila bundel gagal dimuat di hosting.",
+  },
+
+  {
     id: "backend-url",
     label: "URL backend ter-inject ke bundel",
     ok: Boolean(supabaseUrl) && bundleText.includes(supabaseUrl),
